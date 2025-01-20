@@ -7,6 +7,7 @@ import {
 import { Context } from "@/context/ContextProvider";
 import { FaRegCopy } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
+import FormattedResponse from "./FormattedResponse";
 
 const ChatAllRounderBody = () => {
   const {
@@ -71,12 +72,11 @@ const ChatAllRounderBody = () => {
             <div className="flex items-start gap-5">
               <img src="/chatallrounder.png" alt="ChatAllRounder Icon" className="w-10 h-10" />
               <div className="flex items-center gap-2 flex-1">
-                <p
-                  className="text-md font-normal leading-6 text-gray-400 flex-1"
-                  dangerouslySetInnerHTML={{ __html: result }}
-                ></p>
                 {result && (
+                  <>
+                  <FormattedResponse response={result} />
                   <FaRegCopy className="copy-icon" size={20} onClick={copyToClipboard} />
+                  </>
                 )}
               </div>
             </div>
