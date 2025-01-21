@@ -1,6 +1,6 @@
 "use client";
 import runChat from "@/lib/gemini";
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const Context = createContext();
 const ContextProvider = ({ children }) => {
@@ -8,7 +8,7 @@ const ContextProvider = ({ children }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState([]);
-  const [recentPrompts, setRecentPrompts] = useState("");
+  const [recentPrompts, setRecentPrompts] = useState();
   const [displayResult, setDisplayResult] = useState(false);
   const [prevPrompts, setPrevPrompts] = useState([]);
 
@@ -54,9 +54,39 @@ const ContextProvider = ({ children }) => {
   const toggle = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
+
+  useEffect(() => {
+    if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.classList.add("dark");
+      setTheme("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      setTheme("light");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (theme === "light") {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+      setTheme("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      setTheme("light");
+    }
+  };
+
+  const contextSubmit = async () => {
+    const newResult = `Response for: ${input}`;
+    setRecentPrompts([...recentPrompts, { prompt: input, response: newResult }]);
+    setResult(newResult);
+    setDisplayResult(true);
+  };
+
   const contextValue = {
     theme,
-    toggle,
+    toggleTheme,
     submit,
     setInput,
     input,
