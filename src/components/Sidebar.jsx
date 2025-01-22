@@ -35,12 +35,12 @@ const Sidebar = () => {
           onClick={handleNewPrompt}
         >
           <Plus size={20} className="cursor-pointer text-softTextColor" />
-          {isOpen ? <p>New Prompt</p> : null}
+          {isOpen ? <p className="text-softTextColor font-bold">New Prompt</p> : null}
         </div>
       </div>
       <div>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-white">Recent Prompts</h2>
+          <h2 className="text-xl font-bold">Recent Prompts</h2>
           <button onClick={() => setIsOpen(!isOpen)}>
             <Menu size={24} className="text-white" />
           </button>

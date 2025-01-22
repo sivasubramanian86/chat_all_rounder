@@ -45,11 +45,11 @@ const ChatAllRounderBody = () => {
         <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
           ChatAllRounder
         </p>
-        <img src="/chatallrounder.png" size={40} alt="ChatAllRounder Icon" className="w-10 h-10 mt-2" />
+        <img src="/chatallrounder.png" size={40} alt="ChatAllRounder Icon" className="w-20 h-20 mt-2" />
       </div>
       <div className="w-full max-w-[900px] m-auto">
         {!displayResult ? (
-          <div className="my-12 text-5xl font-medium p-5 text-center">
+          <div className="text-4xl font-medium text-center">
             <p>
               <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
                 Welcome!
