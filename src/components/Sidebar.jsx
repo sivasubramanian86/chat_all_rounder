@@ -3,23 +3,40 @@
 import React, { useContext, useState } from "react";
 import { Menu, Plus, MessageSquare } from "lucide-react";
 import { Context } from "@/context/ContextProvider";
+import "../app/globals.css";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const { setDisplayResult, setInput, recentPrompts, submit } = useContext(Context);
+  const { setInput, recentPrompts, submit, setDisplayResult } = useContext(Context);
 
   const loadPrompt = (prompt) => {
-    setInput(prompt);
-    submit({ preventDefault: () => {} });
+    setInput(""); // Clear the current input
+    setTimeout(() => {
+      setInput(prompt); // Set the new prompt
+      submit(null, prompt); // Call submit with the new prompt
+    }, 0);
+  };
+
+  const handleNewPrompt = () => {
+    setDisplayResult(false);
+    setInput(""); // Clear the input field
   };
 
   return (
     <div className="min-h-[100vh] inline-flex flex-col justify-between bg-bgSecondaryColor py-6 px-4">
       <div>
-        <button className="flex items-center space-x-2 text-white">
-          <Plus size={20} />
-          <span>New Prompt</span>
-        </button>
+        <Menu
+          size={25}
+          onClick={() => setIsOpen(!isOpen)}
+          className="cursor-pointer text-softTextColor"
+        />
+        <div
+          className="mt-2.5 inline-flex py-2.5 items-center gap-2.5 px-4 bg-bgPrimaryColor rounded-full text-md text-gray-400 cursor-pointer"
+          onClick={handleNewPrompt}
+        >
+          <Plus size={20} className="cursor-pointer text-softTextColor" />
+          {isOpen ? <p>New Prompt</p> : null}
+        </div>
       </div>
       <div>
         <div className="flex items-center justify-between mb-6">
@@ -30,13 +47,12 @@ const Sidebar = () => {
         </div>
         {isOpen && (
           <ul className="space-y-4">
-            {Array.isArray(recentPrompts) && recentPrompts.map((item, index) => (
-              <li key={index} className="cursor-pointer" onClick={() => loadPrompt(item.prompt)}>
+            {Array.isArray(recentPrompts) && recentPrompts.slice(-5).map((prompt, index) => (
+              <li key={index} className="cursor-pointer" onClick={() => loadPrompt(prompt)}>
                 <div className="flex items-center space-x-2">
                   <MessageSquare size={20} className="text-white" />
-                  <div>
-                    <p className="text-white font-semibold">{item.prompt}</p>
-                    <p className="text-gray-400 text-sm">{item.response}</p>
+                  <div className="sidebar-prompt" style={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap', overflow: 'hidden' }}>
+                    <p className="font-semibold">{prompt}</p>
                   </div>
                 </div>
               </li>

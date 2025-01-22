@@ -8,7 +8,7 @@ const ContextProvider = ({ children }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState([]);
-  const [recentPrompts, setRecentPrompts] = useState();
+  const [recentPrompts, setRecentPrompts] = useState([]);
   const [displayResult, setDisplayResult] = useState(false);
   const [prevPrompts, setPrevPrompts] = useState([]);
 
@@ -20,17 +20,18 @@ const ContextProvider = ({ children }) => {
   };
 
   // on submit
-  const submit = async (prompt) => {
+  const submit = async (e, prompt) => {
+    if (e && e.preventDefault) e.preventDefault();
     setLoading(true);
     setResult("");
     setDisplayResult(true);
-    setRecentPrompts(input);
+    //setRecentPrompts(input);
 
-    if (input && prompt) {
-      setPrevPrompts((prev) => [...prev, input]);
-    }
-    const response = input ? await runChat(input) : await runChat(prompt);
+    const currentPrompt = prompt || input;
+    if (!currentPrompt) return;
+    const response = await runChat(currentPrompt);
     const boldResponse = response.split("**");
+
     let newArray = "";
     for (let i = 0; i < boldResponse.length; i++) {
       if (i === 0 || i % 2 !== 1) {
@@ -46,13 +47,9 @@ const ContextProvider = ({ children }) => {
       const newWord = newRes2[i];
       paragraphDelay(i, newWord + " ");
     }
+    setRecentPrompts((prev) => [...prev, currentPrompt]);
     setLoading(false);
     setInput("");
-  };
-
-  // light and dark mode
-  const toggle = () => {
-    setTheme(theme === "light" ? "dark" : "light");
   };
 
   useEffect(() => {
@@ -75,13 +72,6 @@ const ContextProvider = ({ children }) => {
       localStorage.setItem("theme", "light");
       setTheme("light");
     }
-  };
-
-  const contextSubmit = async () => {
-    const newResult = `Response for: ${input}`;
-    setRecentPrompts([...recentPrompts, { prompt: input, response: newResult }]);
-    setResult(newResult);
-    setDisplayResult(true);
   };
 
   const contextValue = {

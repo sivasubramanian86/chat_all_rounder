@@ -183,3 +183,17 @@
 .theme-toggle-button:hover {
   background-color: var(--hoverBg);
 }
+
+.sidebar {
+  resize: horizontal; /* Allow horizontal resizing */
+  overflow: auto; /* Handle overflow content */
+  min-width: 200px; /* Minimum width for the sidebar */
+  max-width: 400px; /* Maximum width for the sidebar */
+}
+
+.sidebar-prompt {
+  color: "red";
+  word-wrap: break-word; /* Ensure long words break and wrap to the next line */
+  white-space: pre-wrap; /* Preserve whitespace and wrap text */
+  overflow: hidden; /* Hide any overflow content */
+}
