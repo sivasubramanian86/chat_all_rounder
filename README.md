@@ -1,3 +1,8 @@
+> [!NOTE]
+> **OFFICIAL PORTFOLIO SHOWCASE BY SIVASUBRAMANIAN**  
+> **Original Author:** [Sivasubramanian](https://github.com/sivasubramanian86)  
+> *This repository is an open portfolio showcase. Unauthorized cloning, re-hosting, or submission to hackathons/competitions under another name is strictly prohibited.*
+
 # ChatAllRounder
 
 ChatAllRounder is an interactive chat application that leverages generative AI to provide magical and engaging conversations. This project is built using Next.js, React, and Tailwind CSS.
